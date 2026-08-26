@@ -1,0 +1,572 @@
+/* ============================================================
+   GRUPO BGR - PORTAL INTERNO | Custom Styles
+   Complementa Tailwind CSS com glassmorphism, animações 
+   e efeitos visuais premium.
+   ============================================================ */
+
+/* ---- Reset & Base ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ---- Custom Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #57762a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6b8f35;
+}
+
+/* ---- Glassmorphism Card ---- */
+.glass-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 1.15rem;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Reflexo sutil no topo do card */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 100%);
+  pointer-events: none;
+  border-radius: 1.15rem 1.15rem 0 0;
+}
+
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* ---- Glass Card (Light - para fundo claro) ---- */
+.glass-card-light {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-light:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* ---- Botões de Ação dos Cards ---- */
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.65rem;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-action::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-action:hover::before {
+  left: 100%;
+}
+
+.btn-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Variantes de cor */
+.btn-office {
+  background: linear-gradient(135deg, #c0392b, #e67e22);
+}
+
+.btn-chamados {
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
+}
+
+.btn-dash {
+  background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+}
+
+.btn-rh {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+}
+
+.btn-siscomex {
+  background: linear-gradient(135deg, #1e3a8a, #0284c7);
+}
+
+.btn-sydle {
+  background: linear-gradient(135deg, #ea580c, #f97316);
+}
+
+.btn-conexos {
+  background: linear-gradient(135deg, #0891b2, #06b6d4);
+}
+
+.btn-tecwin {
+  background: linear-gradient(135deg, #059669, #10b981);
+}
+
+/* ---- Ícone do Card ---- */
+.card-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  color: #fff;
+  margin-bottom: 0.75rem;
+  position: relative;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  flex-shrink: 0;
+}
+
+.card-icon.icon-office {
+  background: linear-gradient(135deg, #c0392b, #e67e22);
+}
+
+.card-icon.icon-chamados {
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
+}
+
+.card-icon.icon-dash {
+  background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+}
+
+.card-icon.icon-rh {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+}
+
+.card-icon.icon-siscomex {
+  background: linear-gradient(135deg, #1e3a8a, #0284c7);
+}
+
+.card-icon.icon-sydle {
+  background: linear-gradient(135deg, #ea580c, #f97316);
+}
+
+.card-icon.icon-conexos {
+  background: linear-gradient(135deg, #0891b2, #06b6d4);
+}
+
+.card-icon.icon-tecwin {
+  background: linear-gradient(135deg, #059669, #10b981);
+}
+
+/* ---- Hero Section / Viewport Screen 100% ---- */
+.hero-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  min-height: calc(100vh - 4rem);
+  min-height: calc(100dvh - 4rem);
+}
+
+@media (min-width: 1024px) {
+  .hero-section {
+    min-height: calc(100vh - 4.5rem);
+    min-height: calc(100dvh - 4.5rem);
+  }
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+      rgba(26, 26, 46, 0.8) 0%,
+      rgba(87, 118, 42, 0.82) 50%,
+      rgba(26, 26, 46, 0.72) 100%);
+  z-index: 1;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+/* ---- Header Glassmorphism ---- */
+.header-glass {
+  background: rgba(26, 26, 46, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ---- Animações de Entrada ---- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(87, 118, 42, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(87, 118, 42, 0.6);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-left {
+  animation: fadeInLeft 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-right {
+  animation: fadeInRight 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+/* Delays escalonados para cards */
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-300 {
+  animation-delay: 0.3s;
+}
+
+.delay-400 {
+  animation-delay: 0.4s;
+}
+
+.delay-500 {
+  animation-delay: 0.5s;
+}
+
+.delay-600 {
+  animation-delay: 0.6s;
+}
+
+/* ---- Carrossel de Notícias ---- */
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.carousel-slide {
+  min-width: 100%;
+  flex-shrink: 0;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+  transition: background 0.2s, transform 0.2s;
+  color: #1a1a2e;
+  font-size: 1rem;
+}
+
+.carousel-btn:hover {
+  background: #fff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn.prev {
+  left: 0.75rem;
+}
+
+.carousel-btn.next {
+  right: 0.75rem;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d1d5db;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.carousel-dot.active {
+  background: #57762a;
+  transform: scale(1.3);
+}
+
+/* ---- Dropdown Menu ---- */
+.dropdown-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(0.95);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+/* ---- Mobile Menu ---- */
+.mobile-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu.open {
+  max-height: 400px;
+}
+
+/* ---- Quick Link Item ---- */
+.quick-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  transition: background 0.2s, transform 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.quick-link:hover {
+  background: rgba(87, 118, 42, 0.08);
+  transform: translateX(4px);
+}
+
+.quick-link .link-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+/* ---- News card mini ---- */
+.news-card-body {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.news-tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ---- Fundo gradiente principal ---- */
+.main-gradient {
+  background: linear-gradient(180deg,
+      #57762a 0%,
+      #3d5520 20%,
+      #1a1a2e 60%,
+      #111127 100%);
+}
+
+/* ---- Seção clara de notícias/links ---- */
+.section-light {
+  background: #f0f4e8;
+  position: relative;
+}
+
+.section-light::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, #f0f4e8);
+  pointer-events: none;
+}
+
+/* ---- Footer ---- */
+.footer-dark {
+  background: #0f0f1e;
+  border-top: 1px solid rgba(87, 118, 42, 0.3);
+}
+
+/* ---- Partículas decorativas ---- */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+/* ---- Responsividade ---- */
+@media (max-width: 640px) {
+  .hero-section {
+    min-height: 320px;
+  }
+
+  .card-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.35rem;
+  }
+}
