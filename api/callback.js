@@ -114,19 +114,34 @@ function renderSuccessPage(token) {
   </div>
   <script>
     (function() {
-      // Envia o token para a janela do Decap CMS (opener)
       var token = "${token}";
       var provider = "github";
 
-      if (window.opener) {
+      function receiveMessage(e) {
+        if (!window.opener) return;
         window.opener.postMessage(
           "authorization:github:success:" + JSON.stringify({ token: token, provider: provider }),
-          window.location.origin
+          e.origin
+        );
+        window.removeEventListener("message", receiveMessage, false);
+        setTimeout(function() { window.close(); }, 500);
+      }
+
+      window.addEventListener("message", receiveMessage, false);
+
+      if (window.opener) {
+        // 1. Envia sinal de handshake esperado pelo Decap CMS
+        window.opener.postMessage("authorizing:github", "*");
+
+        // 2. Envia também diretamente com wildcard de origem
+        window.opener.postMessage(
+          "authorization:github:success:" + JSON.stringify({ token: token, provider: provider }),
+          "*"
         );
       }
 
-      // Fecha a popup após um pequeno delay
-      setTimeout(function() { window.close(); }, 1500);
+      // Fecha a popup de fallback caso nada responda
+      setTimeout(function() { window.close(); }, 3000);
     })();
   </script>
 </body>
