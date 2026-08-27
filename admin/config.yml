@@ -51,11 +51,7 @@ collections:
     format: "json"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     summary: "{{titulo}} — {{data}}"
-    sortable_fields:
-      fields: ["data", "titulo"]
-      default:
-        field: "data"
-        direction: "Descending"
+    sortable_fields: ["data", "titulo"]
 
     # ---- Campos do formulário ----
     fields:
