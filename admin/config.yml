@@ -1,0 +1,93 @@
+# ============================================================
+# DECAP CMS — Configuração do Painel Administrativo
+# Grupo BGR — Portal Interno
+#
+# Backend: GitHub (commits diretos na branch main)
+# Collection: Notícias em formato JSON
+# ============================================================
+
+# ---- Backend: GitHub ----
+# O auth_endpoint aponta para a Vercel Serverless Function
+# que implementa o fluxo OAuth com o GitHub.
+backend:
+  name: github
+  repo: "TerraJean/teste-stile"
+  branch: main
+  base_url: "https://teste-stile.vercel.app"
+  auth_endpoint: "/api/auth"
+  # Mensagem de commit personalizada
+  commit_messages:
+    create: "feat(noticias): nova notícia — {{slug}}"
+    update: "fix(noticias): atualiza — {{slug}}"
+    delete: "chore(noticias): remove — {{slug}}"
+
+# ---- Pasta de mídia (imagens de capa enviadas pelo CMS) ----
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+# ---- Idioma do painel ----
+locale: "pt"
+
+# ---- Slug (nome dos arquivos) ----
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+# ============================================================
+# COLLECTIONS — Definição das coleções de conteúdo
+# ============================================================
+collections:
+
+  # ---- Coleção: Notícias ----
+  - name: "noticias"
+    label: "Notícias"
+    label_singular: "Notícia"
+    description: "Notícias corporativas publicadas pela equipe de RH."
+    folder: "noticias"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{titulo}} — {{data}}"
+    sortable_fields:
+      fields: ["data", "titulo"]
+      default:
+        field: "data"
+        direction: "Descending"
+
+    # ---- Campos do formulário ----
+    fields:
+      - label: "Título"
+        name: "titulo"
+        widget: "string"
+        hint: "Título principal da notícia."
+
+      - label: "Data de Publicação"
+        name: "data"
+        widget: "datetime"
+        date_format: "DD/MM/YYYY"
+        time_format: "HH:mm"
+        format: "YYYY-MM-DDTHH:mm:ss.SSSZ"
+        hint: "Data e hora da publicação."
+
+      - label: "Resumo"
+        name: "resumo"
+        widget: "string"
+        hint: "Breve descrição exibida no card de notícia (máx. ~150 caracteres)."
+        pattern:
+          - ".{10,200}"
+          - "O resumo deve ter entre 10 e 200 caracteres."
+
+      - label: "Imagem de Capa"
+        name: "imagem"
+        widget: "image"
+        hint: "Imagem exibida como miniatura/banner da notícia."
+        media_folder: "/assets/uploads"
+
+      - label: "Conteúdo"
+        name: "conteudo"
+        widget: "markdown"
+        required: false
+        hint: "Conteúdo completo da notícia (opcional, para detalhamento)."

@@ -1,0 +1,65 @@
+# ============================================================
+# GitHub Action — Gera o índice consolidado de notícias
+#
+# Sempre que um arquivo JSON é adicionado/modificado/removido
+# na pasta /noticias/, este workflow lê todos os JSONs e gera
+# um noticias/index.json com o array consolidado.
+#
+# Isso permite que o front-end faça apenas UM fetch para
+# obter todas as notícias, sem necessidade de build tools.
+# ============================================================
+
+name: Build News Index
+
+on:
+  push:
+    paths:
+      - "noticias/**"
+      - "!noticias/index.json"
+
+  # Permite execução manual pelo GitHub Actions UI
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-index:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repositório
+        uses: actions/checkout@v4
+
+      - name: Gerar noticias/index.json
+        run: |
+          echo "🔍 Buscando arquivos de notícias..."
+
+          # Encontra todos os .json na pasta noticias/, exceto index.json
+          NEWS_FILES=$(find noticias -maxdepth 1 -name '*.json' ! -name 'index.json' | sort -r)
+
+          if [ -z "$NEWS_FILES" ]; then
+            echo "⚠️  Nenhuma notícia encontrada. Gerando índice vazio."
+            echo "[]" > noticias/index.json
+          else
+            echo "📰 Arquivos encontrados:"
+            echo "$NEWS_FILES"
+
+            # Usa jq para ler cada arquivo JSON e consolidar em um array
+            # Adiciona o campo "_arquivo" com o nome do arquivo para referência
+            echo "$NEWS_FILES" | while read -r file; do
+              BASENAME=$(basename "$file")
+              jq --arg arquivo "$BASENAME" '. + {"_arquivo": $arquivo}' "$file"
+            done | jq -s '.' > noticias/index.json
+
+            echo "✅ index.json gerado com $(jq length noticias/index.json) notícias."
+          fi
+
+      - name: Commit e push do index.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add noticias/index.json
+          # Só faz commit se houve mudanças
+          git diff --staged --quiet || git commit -m "chore(noticias): atualiza index.json [skip ci]"
+          git push
