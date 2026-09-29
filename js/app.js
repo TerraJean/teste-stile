@@ -258,26 +258,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const dataFormatada = formatDate(noticia.data);
 
     return `
-      <div class="carousel-slide">
-        <img 
-          src="${imagem}" 
-          alt="${titulo}" 
-          loading="lazy"
-          onerror="this.src='assets/news-office.jpg'"
-        >
-        <div class="news-card-body">
-          <span class="news-tag bg-bgr-100 text-bgr-700">Notícia</span>
-          <h4 class="text-base font-bold text-gray-900 mt-2.5 leading-snug">
-            ${titulo}
-          </h4>
-          <p class="text-sm text-gray-500 mt-1.5 line-clamp-2">
-            ${resumo}
-          </p>
-          <div class="flex items-center gap-2 mt-3 text-xs text-gray-400">
-            <i class="fa-regular fa-calendar"></i>
-            <span>${dataFormatada}</span>
+      <div class="carousel-slide w-full min-w-full shrink-0 group cursor-pointer">
+        <a href="#" class="flex flex-col h-full w-full text-inherit no-underline" title="Ler notícia: ${titulo}">
+          <div class="flex-1 min-h-0 overflow-hidden">
+            <img 
+              src="${imagem}" 
+              alt="${titulo}" 
+              loading="lazy"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              onerror="this.src='assets/news-office.jpg'"
+            >
           </div>
-        </div>
+          <div class="news-card-body shrink-0">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="news-tag bg-accent text-accent-foreground">Notícia</span>
+              <span class="text-xs text-muted-foreground flex items-center gap-1">
+                <i class="fa-regular fa-calendar text-[11px]"></i> ${dataFormatada}
+              </span>
+            </div>
+            <h3 class="text-base sm:text-lg md:text-xl font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
+              ${titulo}
+            </h3>
+            <p class="text-xs sm:text-sm text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">
+              ${resumo}
+            </p>
+            <div class="mt-3 pt-3 border-t border-border flex items-center justify-between">
+              <span class="text-xs font-semibold text-primary group-hover:underline flex items-center gap-1.5">
+                Continuar lendo <i class="fa-solid fa-arrow-right text-[10px] transition-transform group-hover:translate-x-1"></i>
+              </span>
+              <span class="text-[11px] text-muted-foreground">Leitura rápida</span>
+            </div>
+          </div>
+        </a>
       </div>
     `;
   }

@@ -4,14 +4,14 @@
 <head>
   <!-- ============================================================
        GRUPO BGR - PORTAL INTERNO
-       Single Page Application (SPA) — Hub de Aplicações
-       Stack: HTML5 + Tailwind CSS v3 (CDN) + CSS Custom + JS Puro
+       Layout com Destaque Central e Barra Superior de Aplicações
+       Stack: HTML5 + Tailwind CSS + Design System global.css + JS Puro
        ============================================================ -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
-    content="Portal Interno do Grupo BGR — Hub centralizado de aplicações corporativas para colaboradores.">
-  <meta name="theme-color" content="#57762a">
+    content="Portal Interno do Grupo BGR — Hub centralizado de notícias e aplicações corporativas para colaboradores.">
+  <meta name="theme-color" content="#059669">
   <title>Grupo BGR | Portal Interno</title>
 
   <!-- Google Fonts — Inter -->
@@ -25,30 +25,79 @@
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <!-- Tailwind CSS v3 Play CDN -->
+  <!-- Global Design System & Variables (Tailwind v4 Theme Tokens) -->
+  <link rel="stylesheet" href="css/global.css">
+
+  <!-- Tailwind CSS Play CDN configurado com as variáveis do global.css -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            bgr: {
-              50: '#f0f5e6',
-              100: '#dde8c8',
-              200: '#b9d18f',
-              300: '#8fb654',
-              400: '#6b8f35',
-              500: '#57762a',
-              600: '#466020',
-              700: '#354a18',
-              800: '#243310',
-              900: '#131d08',
+            background: 'var(--color-background, #ffffff)',
+            foreground: 'var(--color-foreground, #242424)',
+            card: {
+              DEFAULT: 'var(--color-card, #ffffff)',
+              foreground: 'var(--color-card-foreground, #242424)',
             },
-            dark: {
-              DEFAULT: '#1a1a2e',
-              deep: '#111127',
-              card: '#16213e',
-            }
+            popover: {
+              DEFAULT: 'var(--color-popover, #ffffff)',
+              foreground: 'var(--color-popover-foreground, #242424)',
+            },
+            primary: {
+              DEFAULT: 'var(--color-primary, #059669)',
+              foreground: 'var(--color-primary-foreground, #ffffff)',
+            },
+            secondary: {
+              DEFAULT: 'var(--color-secondary, #fafafa)',
+              foreground: 'var(--color-secondary-foreground, #242424)',
+            },
+            muted: {
+              DEFAULT: 'var(--color-muted, #f0f0f0)',
+              foreground: 'var(--color-muted-foreground, #616161)',
+            },
+            accent: {
+              DEFAULT: 'var(--color-accent, #ecfdf5)',
+              foreground: 'var(--color-accent-foreground, #047857)',
+            },
+            destructive: {
+              DEFAULT: 'var(--color-destructive, #c50f1f)',
+              foreground: 'var(--color-destructive-foreground, #ffffff)',
+            },
+            border: 'var(--color-border, #e0e0e0)',
+            input: 'var(--color-input, #e0e0e0)',
+            ring: 'var(--color-ring, #10b981)',
+            surface: 'var(--color-surface, #f0f0f0)',
+            subtle: 'var(--color-subtle, #8a8a8a)',
+            sidebar: {
+              DEFAULT: 'var(--color-sidebar, #f0f0f0)',
+              foreground: 'var(--color-sidebar-foreground, #0f172a)',
+            },
+            header: 'var(--color-header, #f0f0f0)',
+            nav: {
+              DEFAULT: 'var(--color-nav, #475569)',
+              hover: 'var(--color-nav-hover, rgba(15, 23, 42, 0.04))',
+              active: 'var(--color-nav-active, rgba(5, 150, 105, 0.12))',
+              'active-foreground': 'var(--color-nav-active-foreground, #047857)',
+            },
+            hover: 'var(--color-hover, #ecfdf5)',
+            brand: {
+              DEFAULT: 'var(--color-brand, #059669)',
+              foreground: 'var(--color-brand-foreground, #047857)',
+            },
+            bgr: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#059669',
+              600: '#047857',
+              700: '#065f46',
+              800: '#064e3b',
+              900: '#022c22',
+            },
           },
           fontFamily: {
             sans: ['Inter', 'Segoe UI', 'system-ui', '-apple-system', 'sans-serif'],
@@ -62,483 +111,335 @@
   <link rel="stylesheet" href="css/custom.css">
 </head>
 
-<body class="font-sans text-gray-100 main-gradient min-h-screen">
+<body class="font-sans antialiased text-foreground h-screen overflow-hidden flex flex-col">
+
+  <!-- Background com imagem + overlay verde corporativo -->
+  <div class="bgr-bg-image" aria-hidden="true"></div>
+  <div class="bgr-bg-overlay" aria-hidden="true"></div>
+
 
   <!-- ============================================================
-       A. HEADER — Fixo, glassmorphism, logo + nav + avatar
+       1. CABEÇALHO PRINCIPAL (Header)
        ============================================================ -->
-  <header id="main-header" class="header-glass fixed top-0 left-0 right-0 z-50 transition-shadow duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 lg:h-[4.5rem]">
+  <header id="main-header" class="header-glass sticky top-0 z-50">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
 
-        <!-- Logo -->
+        <!-- Logo BGR -->
         <a href="#" class="flex items-center gap-3 group" aria-label="Página inicial">
           <div
-            class="w-9 h-9 rounded-lg bg-bgr-500 flex items-center justify-center shadow-md group-hover:shadow-bgr-500/40 transition-shadow">
-            <i class="fa-solid fa-building text-white text-sm"></i>
+            class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+            <i class="fa-solid fa-building text-primary-foreground text-sm"></i>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-base sm:text-lg font-extrabold tracking-tight text-white">GRUPO BGR</span>
-            <span class="hidden sm:inline text-gray-400 font-light">|</span>
+            <span class="text-base sm:text-lg font-extrabold tracking-tight text-foreground">GRUPO BGR</span>
+            <span class="hidden sm:inline text-border font-light">|</span>
             <span
-              class="hidden sm:inline text-xs sm:text-sm font-semibold text-bgr-300 tracking-widest uppercase">Portal
-              Interno</span>
+              class="hidden sm:inline text-xs font-semibold text-primary tracking-widest uppercase">Portal Interno</span>
           </div>
         </a>
 
-        <!-- Nav Desktop -->
-        <nav class="hidden lg:flex items-center gap-1" aria-label="Menu principal">
-          <a href="#inicio"
-            class="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all">
-            <i class="fa-solid fa-house mr-1.5 text-xs"></i> Início
-          </a>
-          <a href="#aplicacoes"
-            class="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all">
-            <i class="fa-solid fa-grid-2 mr-1.5 text-xs"></i> Aplicações
-          </a>
-          <a href="#noticias"
-            class="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all">
-            <i class="fa-solid fa-newspaper mr-1.5 text-xs"></i> Notícias
+        <!-- Links Rápidos / Suporte -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="https://ti.grupobgr.com.br" target="_blank" rel="noopener noreferrer"
+            class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-nav hover:text-primary hover:bg-nav-hover transition-colors">
+            <i class="fa-solid fa-headset text-primary text-xs"></i>
+            <span>Suporte TI</span>
           </a>
 
+          <!-- Hamburger Mobile para Menu de Aplicações -->
+          <button id="mobile-menu-toggle" class="md:hidden p-2 rounded-lg text-nav hover:bg-nav-hover transition"
+            aria-label="Abrir menu de aplicações" aria-expanded="false">
+            <i id="hamburger-icon" class="fa-solid fa-bars text-lg"></i>
+            <i id="close-icon" class="fa-solid fa-xmark text-lg hidden"></i>
+          </button>
+        </div>
 
-        </nav>
-
-        <!-- Hamburger Mobile -->
-        <button id="mobile-menu-toggle" class="lg:hidden p-2 rounded-lg text-gray-300 hover:bg-white/10 transition"
-          aria-label="Abrir menu" aria-expanded="false">
-          <i id="hamburger-icon" class="fa-solid fa-bars text-xl"></i>
-          <i id="close-icon" class="fa-solid fa-xmark text-xl hidden"></i>
-        </button>
       </div>
     </div>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="mobile-menu lg:hidden border-t border-white/5">
-      <div class="px-4 py-4 space-y-1.5">
-        <a href="#inicio"
-          class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-200 hover:bg-white/10 transition">
-          <i class="fa-solid fa-house w-4 text-center text-bgr-400"></i> Início
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="mobile-menu md:hidden border-t border-border bg-card/95 backdrop-blur-md">
+      <div class="px-4 py-3 space-y-1">
+        <p class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-1">Aplicações Corporativas</p>
+        <a href="https://m365.cloud.microsoft/apps" target="_blank" rel="noopener noreferrer"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-nav hover:bg-nav-hover hover:text-primary transition">
+          <i class="fa-brands fa-microsoft text-primary w-4 text-center"></i> Pacote Office
         </a>
-        <a href="#aplicacoes"
-          class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-200 hover:bg-white/10 transition">
-          <i class="fa-solid fa-grid-2 w-4 text-center text-bgr-400"></i> Aplicações
+        <a href="https://ti.grupobgr.com.br" target="_blank" rel="noopener noreferrer"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-nav hover:bg-nav-hover hover:text-primary transition">
+          <i class="fa-solid fa-headset text-primary w-4 text-center"></i> Chamados TI
         </a>
-        <a href="#noticias"
-          class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-200 hover:bg-white/10 transition">
-          <i class="fa-solid fa-newspaper w-4 text-center text-bgr-400"></i> Notícias
+        <a href="#" target="_blank" rel="noopener noreferrer"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-nav hover:bg-nav-hover hover:text-primary transition">
+          <i class="fa-solid fa-chart-pie text-primary w-4 text-center"></i> Dashboards
         </a>
-
+        <a href="https://portalrh.stilecomercial.com.br" target="_blank" rel="noopener noreferrer"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-nav hover:bg-nav-hover hover:text-primary transition">
+          <i class="fa-solid fa-id-badge text-primary w-4 text-center"></i> Portal RH
+        </a>
+        <a href="https://www4.receita.fazenda.gov.br/" target="_blank" rel="noopener noreferrer"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-nav hover:bg-nav-hover hover:text-primary transition">
+          <i class="fa-solid fa-ship text-primary w-4 text-center"></i> Portal Siscomex
+        </a>
+        <a href="https://grupobgr.sydle.one/login" target="_blank" rel="noopener noreferrer"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-nav hover:bg-nav-hover hover:text-primary transition">
+          <i class="fa-solid fa-diagram-project text-primary w-4 text-center"></i> Portal Sydle
+        </a>
+        <a href="https://stile.conexos.cloud/login" target="_blank" rel="noopener noreferrer"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-nav hover:bg-nav-hover hover:text-primary transition">
+          <i class="fa-solid fa-cloud-arrow-up text-primary w-4 text-center"></i> Portal Conexos
+        </a>
+        <a href="https://tecwinweb.aduaneiras.com.br/" target="_blank" rel="noopener noreferrer"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-nav hover:bg-nav-hover hover:text-primary transition">
+          <i class="fa-solid fa-scale-balanced text-primary w-4 text-center"></i> Portal TECwin
+        </a>
       </div>
     </div>
   </header>
 
 
   <!-- ============================================================
-       B & C. INÍCIO + APP GRID — Portal de Aplicações Corporativas
+       2. NOVA BARRA DE NAVEGAÇÃO SUPERIOR (Aplicações Corporativas)
+       Posicionada logo abaixo do Header e acima do título de boas-vindas
        ============================================================ -->
-  <section id="inicio" class="hero-section mt-16 lg:mt-[4.5rem] px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
-    <img src="assets/hero-bg.jpg" alt="" class="hero-bg" aria-hidden="true" loading="eager">
+  <nav id="aplicacoes-navbar" class="shrink-0 w-full px-4 sm:px-6 lg:px-8 pt-4 pb-2 z-40" aria-label="Navegação de Aplicações Corporativas">
+    <div class="max-w-[1400px] mx-auto">
+      <div class="apps-navbar-glass rounded-xl p-1.5 sm:p-2">
+        <div class="flex items-center justify-start lg:justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-0.5 px-1">
 
-    <!-- Partículas decorativas -->
-    <div class="particle w-64 h-64 top-4 -left-28 opacity-25" aria-hidden="true"></div>
-    <div class="particle w-48 h-48 bottom-12 -right-20 opacity-20" aria-hidden="true"></div>
+          <!-- Pacote Office -->
+          <a href="https://m365.cloud.microsoft/apps" target="_blank" rel="noopener noreferrer"
+            class="app-nav-item" title="E-mail, documentos e colaboração Microsoft 365">
+            <i class="fa-brands fa-microsoft"></i>
+            <span>Pacote Office</span>
+          </a>
 
-    <div class="relative z-10 max-w-7xl mx-auto w-full flex flex-col justify-between flex-1 gap-6 lg:gap-8">
+          <!-- Chamados TI -->
+          <a href="https://ti.grupobgr.com.br" target="_blank" rel="noopener noreferrer"
+            class="app-nav-item" title="Abra chamados e acompanhe suporte técnico">
+            <i class="fa-solid fa-headset"></i>
+            <span>Chamados TI</span>
+          </a>
 
-      <!-- Header Hero (Topo) -->
-      <div class="text-center pt-2 sm:pt-4">
-        <h1
-          class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-white leading-tight tracking-tight animate-fade-in-up delay-100">
-          Bem-vindo ao Portal Intranet
-          <span class="block sm:inline sm:ml-2 text-bgr-200 font-extrabold text-xl sm:text-2xl lg:text-3xl xl:text-4xl">
-            <br>• Ferramentas Centralizadas
-          </span>
-        </h1>
+          <!-- Dashboards -->
+          <a href="#" target="_blank" rel="noopener noreferrer"
+            class="app-nav-item" title="Relatórios gerenciais e métricas KPIs">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Dashboards</span>
+          </a>
 
-        <p class="text-sm sm:text-base text-gray-300 max-w-2xl mx-auto mt-2 animate-fade-in-up delay-200">
-          Seu hub corporativo com acesso rápido às aplicações essenciais do Grupo BGR.
-        </p>
-      </div>
+          <!-- Portal RH -->
+          <a href="https://portalrh.stilecomercial.com.br" target="_blank" rel="noopener noreferrer"
+            class="app-nav-item" title="Holerite, férias e benefícios">
+            <i class="fa-solid fa-id-badge"></i>
+            <span>Portal RH</span>
+          </a>
 
-      <!-- App Grid (Core da Página) -->
-      <div id="aplicacoes" class="w-full scroll-mt-20">
-        <div class="text-center mb-4 sm:mb-6">
-          <span
-            class="inline-block px-3.5 py-1 rounded-full bg-bgr-500/20 border border-bgr-500/30 text-bgr-300 text-xs font-bold tracking-wider uppercase">
-            Aplicações Corporativas
-          </span>
-        </div>
+          <!-- Portal Siscomex -->
+          <a href="https://www4.receita.fazenda.gov.br/" target="_blank" rel="noopener noreferrer"
+            class="app-nav-item" title="Carga e trânsito aduaneiro Receita Federal">
+            <i class="fa-solid fa-ship"></i>
+            <span>Portal Siscomex</span>
+          </a>
 
-        <!-- Grid de Cards (8 Aplicações - Tamanho Expandido) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-5">
+          <!-- Portal Sydle -->
+          <a href="https://grupobgr.sydle.one/login" target="_blank" rel="noopener noreferrer"
+            class="app-nav-item" title="Gestão integrada de processos BPM">
+            <i class="fa-solid fa-diagram-project"></i>
+            <span>Portal Sydle</span>
+          </a>
 
-          <!-- Card 1: Pacote Office -->
-          <article class="glass-card p-4 sm:p-5 flex flex-col items-start" data-animate="fade-in-up"
-            style="animation-delay: 0.05s">
-            <div class="card-icon icon-office">
-              <i class="fa-brands fa-microsoft"></i>
-            </div>
-            <h3 class="text-base sm:text-lg font-bold text-white mb-1">Pacote Office</h3>
-            <p class="text-xs sm:text-sm text-gray-300/85 mb-4 flex-1 leading-relaxed">
-              E-mail, documentos, planilhas e colaboração Microsoft 365.
-            </p>
-            <a href="https://m365.cloud.microsoft/apps" target="_blank" rel="noopener noreferrer"
-              class="btn-action btn-office w-full justify-center">
-              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-              Acessar Office
-            </a>
-          </article>
+          <!-- Portal Conexos -->
+          <a href="https://stile.conexos.cloud/login" target="_blank" rel="noopener noreferrer"
+            class="app-nav-item" title="Gestão especializada em comércio exterior ERP">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Portal Conexos</span>
+          </a>
 
-          <!-- Card 2: Chamados TI -->
-          <article class="glass-card p-4 sm:p-5 flex flex-col items-start" data-animate="fade-in-up"
-            style="animation-delay: 0.1s">
-            <div class="card-icon icon-chamados">
-              <i class="fa-solid fa-headset"></i>
-            </div>
-            <h3 class="text-base sm:text-lg font-bold text-white mb-1">Chamados TI</h3>
-            <p class="text-xs sm:text-sm text-gray-300/85 mb-4 flex-1 leading-relaxed">
-              Abra chamados, suporte técnico e acompanhe o histórico.
-            </p>
-            <a href="https://ti.grupobgr.com.br" target="_blank" rel="noopener noreferrer"
-              class="btn-action btn-chamados w-full justify-center">
-              <i class="fa-solid fa-ticket text-xs"></i>
-              Abrir Chamado
-            </a>
-          </article>
-
-          <!-- Card 3: Dashboards -->
-          <article class="glass-card p-4 sm:p-5 flex flex-col items-start" data-animate="fade-in-up"
-            style="animation-delay: 0.15s">
-            <div class="card-icon icon-dash">
-              <i class="fa-solid fa-chart-pie"></i>
-            </div>
-            <h3 class="text-base sm:text-lg font-bold text-white mb-1">Dashboards</h3>
-            <p class="text-xs sm:text-sm text-gray-300/85 mb-4 flex-1 leading-relaxed">
-              Relatórios de performance gerencial, vendas e métricas KPIs.
-            </p>
-            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-action btn-dash w-full justify-center">
-              <i class="fa-solid fa-chart-column text-xs"></i>
-              Visualizar Painéis
-            </a>
-          </article>
-
-          <!-- Card 4: Portal RH -->
-          <article class="glass-card p-4 sm:p-5 flex flex-col items-start" data-animate="fade-in-up"
-            style="animation-delay: 0.2s">
-            <div class="card-icon icon-rh">
-              <i class="fa-solid fa-id-badge"></i>
-            </div>
-            <h3 class="text-base sm:text-lg font-bold text-white mb-1">Portal RH</h3>
-            <p class="text-xs sm:text-sm text-gray-300/85 mb-4 flex-1 leading-relaxed">
-              Holerite, férias, benefícios e informes de colaboradores.
-            </p>
-            <a href="https://portalrh.stilecomercial.com.br" target="_blank" rel="noopener noreferrer"
-              class="btn-action btn-rh w-full justify-center">
-              <i class="fa-solid fa-arrow-right text-xs"></i>
-              Ir para RH
-            </a>
-          </article>
-
-          <!-- Card 5: Siscomex Carga e Trânsito -->
-          <article class="glass-card p-4 sm:p-5 flex flex-col items-start" data-animate="fade-in-up"
-            style="animation-delay: 0.25s">
-            <div class="card-icon icon-siscomex">
-              <i class="fa-solid fa-ship"></i>
-            </div>
-            <h3 class="text-base sm:text-lg font-bold text-white mb-1">Portal Siscomex</h3>
-            <p class="text-xs sm:text-sm text-gray-300/85 mb-4 flex-1 leading-relaxed">
-              Carga e trânsito aduaneiro da Receita Federal do Brasil.
-            </p>
-            <a href="https://www4.receita.fazenda.gov.br/" target="_blank" rel="noopener noreferrer"
-              class="btn-action btn-siscomex w-full justify-center">
-              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-              Acessar Siscomex
-            </a>
-          </article>
-
-          <!-- Card 6: Portal Sydle -->
-          <article class="glass-card p-4 sm:p-5 flex flex-col items-start" data-animate="fade-in-up"
-            style="animation-delay: 0.3s">
-            <div class="card-icon icon-sydle">
-              <i class="fa-solid fa-diagram-project"></i>
-            </div>
-            <h3 class="text-base sm:text-lg font-bold text-white mb-1">Portal Sydle</h3>
-            <p class="text-xs sm:text-sm text-gray-300/85 mb-4 flex-1 leading-relaxed">
-              Gestão integrada de processos e fluxos corporativos BPM.
-            </p>
-            <a href="https://grupobgr.sydle.one/login" target="_blank" rel="noopener noreferrer"
-              class="btn-action btn-sydle w-full justify-center">
-              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-              Acessar Sydle
-            </a>
-          </article>
-
-          <!-- Card 7: Portal Conexos -->
-          <article class="glass-card p-4 sm:p-5 flex flex-col items-start" data-animate="fade-in-up"
-            style="animation-delay: 0.35s">
-            <div class="card-icon icon-conexos">
-              <i class="fa-solid fa-cloud-arrow-up"></i>
-            </div>
-            <h3 class="text-base sm:text-lg font-bold text-white mb-1">Portal Conexos</h3>
-            <p class="text-xs sm:text-sm text-gray-300/85 mb-4 flex-1 leading-relaxed">
-              Gestão especializada para comércio exterior e ERP Cloud.
-            </p>
-            <a href="https://stile.conexos.cloud/login" target="_blank" rel="noopener noreferrer"
-              class="btn-action btn-conexos w-full justify-center">
-              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-              Acessar Conexos
-            </a>
-          </article>
-
-          <!-- Card 8: Portal TECwin -->
-          <article class="glass-card p-4 sm:p-5 flex flex-col items-start" data-animate="fade-in-up"
-            style="animation-delay: 0.4s">
-            <div class="card-icon icon-tecwin">
-              <i class="fa-solid fa-scale-balanced"></i>
-            </div>
-            <h3 class="text-base sm:text-lg font-bold text-white mb-1">Portal TECwin</h3>
-            <p class="text-xs sm:text-sm text-gray-300/85 mb-4 flex-1 leading-relaxed">
-              Consulta de tarifas, NCM e legislação aduaneira completa.
-            </p>
-            <a href="https://tecwinweb.aduaneiras.com.br/" target="_blank" rel="noopener noreferrer"
-              class="btn-action btn-tecwin w-full justify-center">
-              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-              Acessar TECwin
-            </a>
-          </article>
+          <!-- Portal TECwin -->
+          <a href="https://tecwinweb.aduaneiras.com.br/" target="_blank" rel="noopener noreferrer"
+            class="app-nav-item" title="Consulta de tarifas e legislação aduaneira">
+            <i class="fa-solid fa-scale-balanced"></i>
+            <span>Portal TECwin</span>
+          </a>
 
         </div>
       </div>
-
-      <!-- Indicador sutil de scroll para notícias -->
-      <div class="text-center pb-2">
-        <a href="#noticias"
-          class="inline-flex items-center gap-1.5 text-xs font-medium text-gray-300/70 hover:text-white transition-colors"
-          aria-label="Rolar para notícias">
-          <span>Notícias e Recursos</span>
-          <i class="fa-solid fa-chevron-down text-xs animate-bounce"></i>
-        </a>
-      </div>
-
     </div>
-  </section>
+  </nav>
 
 
   <!-- ============================================================
-       D. SEÇÃO SECUNDÁRIA — Notícias + Links Rápidos
+       3. CONTEÚDO PRINCIPAL — DESTAQUE CENTRAL PARA ÚLTIMAS NOTÍCIAS
+       Layout 100% centralizado, responsivo e imersivo
        ============================================================ -->
-  <section id="noticias" class="section-light py-16 sm:py-20 lg:py-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <main class="flex-1 min-h-0 flex flex-col items-center justify-start px-4 sm:px-6 lg:px-8 py-3 md:py-5 overflow-hidden">
 
-      <!-- Section Header -->
-      <div class="text-center mb-12 lg:mb-16" data-animate="fade-in-up">
-        <span
-          class="inline-block px-3 py-1 rounded-full bg-bgr-500/15 border border-bgr-500/25 text-bgr-600 text-xs font-bold tracking-widest uppercase mb-4">
-          Informações
+    <!-- Título de Boas-Vindas -->
+    <div class="shrink-0 text-center mb-3 md:mb-4 max-w-4xl mx-auto">
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight drop-shadow-sm">
+        Bem-vindo ao portal interno do Grupo BGR
+      </h1>
+      <p class="text-white/80 text-sm md:text-base mt-1.5 font-medium">
+        Fique por dentro das principais novidades, comunicados e acontecimentos do grupo.
+      </p>
+    </div>
+
+    <!-- Contêiner Central de Notícias (100% de largura no limite max-w-5xl/6xl) -->
+    <section id="noticias" class="flex-1 min-h-0 w-full max-w-5xl mx-auto flex flex-col overflow-hidden scroll-mt-20">
+
+      <!-- Cabeçalho da Seção de Notícias -->
+      <div class="shrink-0 flex items-center justify-between mb-2 px-1">
+        <div class="flex items-center gap-2.5">
+          <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+          <h2 class="text-xs sm:text-sm font-bold text-white/95 uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-newspaper text-emerald-300"></i>
+            Últimas Notícias
+          </h2>
+        </div>
+        <span class="text-[11px] text-white/70 hidden sm:inline-block font-medium">
+          Atualizações em tempo real
         </span>
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900">
-          Fique por Dentro
-        </h2>
-        <p class="mt-3 text-gray-500 text-sm sm:text-base max-w-lg mx-auto">
-          Últimas notícias corporativas e links rápidos para os recursos mais utilizados.
-        </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10">
+      <!-- Carrossel de Notícias em Destaque Central -->
+      <div id="news-carousel" class="carousel-container flex-1 min-h-0 flex flex-col relative w-full group">
 
-        <!-- Coluna Esquerda: Carrossel de Notícias (3 colunas) -->
-        <div class="lg:col-span-3" data-animate="fade-in-left">
-          <h3 class="text-lg font-bold text-gray-800 mb-5 flex items-center gap-2">
-            <i class="fa-solid fa-fire text-orange-500"></i> Últimas Notícias
-          </h3>
+        <!-- Botões de Navegação -->
+        <button id="carousel-prev" class="carousel-btn prev" aria-label="Notícia anterior">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button id="carousel-next" class="carousel-btn next" aria-label="Próxima notícia">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
 
-          <div id="news-carousel" class="carousel-container glass-card-light overflow-hidden">
-            <!-- Controles -->
-            <button id="carousel-prev" class="carousel-btn prev" aria-label="Notícia anterior">
-              <i class="fa-solid fa-chevron-left"></i>
-            </button>
-            <button id="carousel-next" class="carousel-btn next" aria-label="Próxima notícia">
-              <i class="fa-solid fa-chevron-right"></i>
-            </button>
+        <!-- Viewport do Carrossel (janela visível — oculta slides laterais) -->
+        <div class="carousel-viewport flex-1 min-h-0">
+          <div id="carousel-track" class="carousel-track">
 
-            <!-- Track -->
-            <div id="carousel-track" class="carousel-track">
-
-              <!-- Slide 1 -->
-              <div class="carousel-slide">
-                <img src="assets/news-office.jpg" alt="Novo escritório colaborativo do Grupo BGR" loading="lazy">
-                <div class="news-card-body">
-                  <span class="news-tag bg-bgr-100 text-bgr-700">Institucional</span>
-                  <h4 class="text-base font-bold text-gray-900 mt-2.5 leading-snug">
+            <!-- Slide 1 (Fallback estático / CMS) -->
+            <div class="carousel-slide w-full min-w-full shrink-0 group cursor-pointer">
+              <a href="#" class="flex flex-col h-full w-full text-inherit no-underline" title="Ler notícia: Novo espaço colaborativo inaugurado na sede">
+                <div class="flex-1 min-h-0 overflow-hidden">
+                  <img src="assets/news-office.jpg" alt="Novo escritório colaborativo do Grupo BGR" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                </div>
+                <div class="news-card-body shrink-0">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="news-tag bg-accent text-accent-foreground">Institucional</span>
+                    <span class="text-xs text-muted-foreground flex items-center gap-1">
+                      <i class="fa-regular fa-calendar text-[11px]"></i> 25 Ago 2026
+                    </span>
+                  </div>
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
                     Novo espaço colaborativo inaugurado na sede
-                  </h4>
-                  <p class="text-sm text-gray-500 mt-1.5 line-clamp-2">
-                    O Grupo BGR inaugurou seu novo espaço de trabalho colaborativo, projetado para promover a inovação e
-                    o bem-estar dos colaboradores.
+                  </h3>
+                  <p class="text-xs sm:text-sm text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">
+                    O Grupo BGR inaugurou seu novo espaço de trabalho colaborativo, projetado para promover a inovação, a integração entre equipes e o bem-estar de todos os colaboradores.
                   </p>
-                  <div class="flex items-center gap-2 mt-3 text-xs text-gray-400">
-                    <i class="fa-regular fa-calendar"></i>
-                    <span>25 Ago 2026</span>
+                  <div class="mt-3 pt-3 border-t border-border flex items-center justify-between">
+                    <span class="text-xs font-semibold text-primary group-hover:underline flex items-center gap-1.5">
+                      Continuar lendo <i class="fa-solid fa-arrow-right text-[10px] transition-transform group-hover:translate-x-1"></i>
+                    </span>
+                    <span class="text-[11px] text-muted-foreground">3 min de leitura</span>
                   </div>
                 </div>
-              </div>
-
-              <!-- Slide 2 -->
-              <div class="carousel-slide">
-                <img src="assets/news-tech.jpg" alt="Nova plataforma de dashboards" loading="lazy">
-                <div class="news-card-body">
-                  <span class="news-tag bg-blue-100 text-blue-700">Tecnologia</span>
-                  <h4 class="text-base font-bold text-gray-900 mt-2.5 leading-snug">
-                    Plataforma de dashboards recebe grande atualização
-                  </h4>
-                  <p class="text-sm text-gray-500 mt-1.5 line-clamp-2">
-                    A equipe de TI lançou a versão 3.0 dos painéis analíticos com novos relatórios de KPIs e
-                    visualizações interativas.
-                  </p>
-                  <div class="flex items-center gap-2 mt-3 text-xs text-gray-400">
-                    <i class="fa-regular fa-calendar"></i>
-                    <span>22 Ago 2026</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Slide 3 -->
-              <div class="carousel-slide">
-                <img src="assets/news-team.jpg" alt="Equipe celebrando conquista" loading="lazy">
-                <div class="news-card-body">
-                  <span class="news-tag bg-purple-100 text-purple-700">Pessoas</span>
-                  <h4 class="text-base font-bold text-gray-900 mt-2.5 leading-snug">
-                    BGR entre as melhores empresas para se trabalhar
-                  </h4>
-                  <p class="text-sm text-gray-500 mt-1.5 line-clamp-2">
-                    Pelo terceiro ano consecutivo, o Grupo BGR foi reconhecido no ranking GPTW como uma das melhores
-                    empresas para se trabalhar.
-                  </p>
-                  <div class="flex items-center gap-2 mt-3 text-xs text-gray-400">
-                    <i class="fa-regular fa-calendar"></i>
-                    <span>18 Ago 2026</span>
-                  </div>
-                </div>
-              </div>
-
+              </a>
             </div>
 
-            <!-- Dots -->
-            <div id="carousel-dots" class="carousel-dots"></div>
-          </div>
-        </div>
+            <!-- Slide 2 (Fallback estático / CMS) -->
+            <div class="carousel-slide w-full min-w-full shrink-0 group cursor-pointer">
+              <a href="#" class="flex flex-col h-full w-full text-inherit no-underline" title="Ler notícia: Plataforma de dashboards recebe grande atualização">
+                <div class="flex-1 min-h-0 overflow-hidden">
+                  <img src="assets/news-tech.jpg" alt="Nova plataforma de dashboards" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                </div>
+                <div class="news-card-body shrink-0">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="news-tag bg-blue-50 text-blue-700">Tecnologia</span>
+                    <span class="text-xs text-muted-foreground flex items-center gap-1">
+                      <i class="fa-regular fa-calendar text-[11px]"></i> 22 Ago 2026
+                    </span>
+                  </div>
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
+                    Plataforma de dashboards recebe grande atualização
+                  </h3>
+                  <p class="text-xs sm:text-sm text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">
+                    A equipe de TI lançou a versão 3.0 dos painéis analíticos corporativos com novos relatórios de KPIs, exportação avançada e visualizações interativas em tempo real.
+                  </p>
+                  <div class="mt-3 pt-3 border-t border-border flex items-center justify-between">
+                    <span class="text-xs font-semibold text-primary group-hover:underline flex items-center gap-1.5">
+                      Continuar lendo <i class="fa-solid fa-arrow-right text-[10px] transition-transform group-hover:translate-x-1"></i>
+                    </span>
+                    <span class="text-[11px] text-muted-foreground">2 min de leitura</span>
+                  </div>
+                </div>
+              </a>
+            </div>
 
-        <!-- Coluna Direita: Recursos Rápidos (2 colunas) -->
-        <div class="lg:col-span-2" data-animate="fade-in-right">
-          <h3 class="text-lg font-bold text-gray-800 mb-5 flex items-center gap-2">
-            <i class="fa-solid fa-bolt text-yellow-500"></i> Recursos Rápidos
-          </h3>
-
-          <div class="glass-card-light p-4 space-y-1">
-
-            <a href="#" class="quick-link">
-              <div class="link-icon bg-blue-50 text-blue-600">
-                <i class="fa-solid fa-wifi"></i>
-              </div>
-              <div>
-                <span class="text-sm font-semibold text-gray-800">Rede Wi-Fi Corporativa</span>
-                <p class="text-xs text-gray-500 mt-0.5">Configuração e credenciais</p>
-              </div>
-              <i class="fa-solid fa-chevron-right text-xs text-gray-300 ml-auto"></i>
-            </a>
-
-            <a href="#" class="quick-link">
-              <div class="link-icon bg-green-50 text-green-600">
-                <i class="fa-solid fa-shield-halved"></i>
-              </div>
-              <div>
-                <span class="text-sm font-semibold text-gray-800">Política de Segurança</span>
-                <p class="text-xs text-gray-500 mt-0.5">Normas e boas práticas</p>
-              </div>
-              <i class="fa-solid fa-chevron-right text-xs text-gray-300 ml-auto"></i>
-            </a>
-
-            <a href="#" class="quick-link">
-              <div class="link-icon bg-orange-50 text-orange-600">
-                <i class="fa-solid fa-book-open"></i>
-              </div>
-              <div>
-                <span class="text-sm font-semibold text-gray-800">Manual do Colaborador</span>
-                <p class="text-xs text-gray-500 mt-0.5">Guia completo de onboarding</p>
-              </div>
-              <i class="fa-solid fa-chevron-right text-xs text-gray-300 ml-auto"></i>
-            </a>
-
-            <a href="#" class="quick-link">
-              <div class="link-icon bg-purple-50 text-purple-600">
-                <i class="fa-solid fa-calendar-days"></i>
-              </div>
-              <div>
-                <span class="text-sm font-semibold text-gray-800">Calendário Corporativo</span>
-                <p class="text-xs text-gray-500 mt-0.5">Feriados e eventos internos</p>
-              </div>
-              <i class="fa-solid fa-chevron-right text-xs text-gray-300 ml-auto"></i>
-            </a>
-
-            <a href="#" class="quick-link">
-              <div class="link-icon bg-red-50 text-red-600">
-                <i class="fa-solid fa-phone"></i>
-              </div>
-              <div>
-                <span class="text-sm font-semibold text-gray-800">Ramais e Contatos</span>
-                <p class="text-xs text-gray-500 mt-0.5">Lista telefônica interna</p>
-              </div>
-              <i class="fa-solid fa-chevron-right text-xs text-gray-300 ml-auto"></i>
-            </a>
-
-            <a href="#" class="quick-link">
-              <div class="link-icon bg-teal-50 text-teal-600">
-                <i class="fa-solid fa-print"></i>
-              </div>
-              <div>
-                <span class="text-sm font-semibold text-gray-800">Impressoras e Scanners</span>
-                <p class="text-xs text-gray-500 mt-0.5">Instalar drivers e configurar</p>
-              </div>
-              <i class="fa-solid fa-chevron-right text-xs text-gray-300 ml-auto"></i>
-            </a>
+            <!-- Slide 3 (Fallback estático / CMS) -->
+            <div class="carousel-slide w-full min-w-full shrink-0 group cursor-pointer">
+              <a href="#" class="flex flex-col h-full w-full text-inherit no-underline" title="Ler notícia: BGR entre as melhores empresas para se trabalhar">
+                <div class="flex-1 min-h-0 overflow-hidden">
+                  <img src="assets/news-team.jpg" alt="Equipe celebrando conquista" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                </div>
+                <div class="news-card-body shrink-0">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="news-tag bg-purple-50 text-purple-700">Pessoas</span>
+                    <span class="text-xs text-muted-foreground flex items-center gap-1">
+                      <i class="fa-regular fa-calendar text-[11px]"></i> 18 Ago 2026
+                    </span>
+                  </div>
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
+                    BGR entre as melhores empresas para se trabalhar
+                  </h3>
+                  <p class="text-xs sm:text-sm text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">
+                    Pelo terceiro ano consecutivo, o Grupo BGR foi reconhecido no ranking GPTW como uma das referências em ambiente profissional saudável, desenvolvimento e cultura.
+                  </p>
+                  <div class="mt-3 pt-3 border-t border-border flex items-center justify-between">
+                    <span class="text-xs font-semibold text-primary group-hover:underline flex items-center gap-1.5">
+                      Continuar lendo <i class="fa-solid fa-arrow-right text-[10px] transition-transform group-hover:translate-x-1"></i>
+                    </span>
+                    <span class="text-[11px] text-muted-foreground">4 min de leitura</span>
+                  </div>
+                </div>
+              </a>
+            </div>
 
           </div>
         </div>
+
+        <!-- Indicadores / Dots do Carrossel -->
+        <div id="carousel-dots" class="carousel-dots"></div>
 
       </div>
-    </div>
-  </section>
+    </section>
+
+  </main>
 
 
   <!-- ============================================================
-       E. FOOTER — Barra escura com informações de suporte
+       4. RODAPÉ (Footer)
        ============================================================ -->
-  <footer class="footer-dark py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+  <footer class="footer-bar py-3.5 flex-shrink-0 mt-auto">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
 
-        <!-- Logo mini + copyright -->
-        <div class="flex items-center gap-3">
-          <div class="w-7 h-7 rounded-md bg-bgr-500/30 flex items-center justify-center">
-            <i class="fa-solid fa-building text-bgr-400 text-xs"></i>
-          </div>
-          <p class="text-sm text-gray-400">
-            © <span id="current-year">2026</span> <strong class="text-gray-300">GRUPO BGR</strong> — Portal Interno
-          </p>
-        </div>
+        <!-- Copyright -->
+        <p class="text-xs text-white/60 text-center sm:text-left">
+          © <span id="current-year">2026</span> <strong class="text-white/90">GRUPO BGR</strong> — Portal Interno. Todos os direitos reservados.
+        </p>
 
-        <!-- Suporte -->
-        <div class="flex items-center gap-4 text-sm text-gray-500">
-          <a href="mailto:ti@grupobgr.com.br" class="flex items-center gap-1.5 hover:text-bgr-400 transition-colors">
-            <i class="fa-solid fa-envelope text-xs"></i>
+        <!-- Suporte e Contato -->
+        <div class="flex items-center gap-3 text-xs text-white/50">
+          <a href="mailto:ti@grupobgr.com.br" class="flex items-center gap-1.5 hover:text-white transition-colors">
+            <i class="fa-solid fa-envelope text-[11px]"></i>
             ti@grupobgr.com.br
           </a>
-          <span class="hidden sm:inline text-gray-700">|</span>
-          <span class="hidden sm:inline flex items-center gap-1.5">
-            <i class="fa-solid fa-headset text-xs"></i>
+          <span class="text-white/20">|</span>
+          <a href="https://ti.grupobgr.com.br" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 hover:text-white transition-colors">
+            <i class="fa-solid fa-headset text-[11px]"></i>
             Suporte TI
-          </span>
+          </a>
         </div>
 
       </div>
