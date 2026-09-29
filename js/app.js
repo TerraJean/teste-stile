@@ -124,21 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     }
 
-    // Touch/swipe support
-    let touchStartX = 0;
-
-    track.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    track.addEventListener('touchend', (e) => {
-      const touchEndX = e.changedTouches[0].screenX;
-      const diff = touchStartX - touchEndX;
-      if (Math.abs(diff) > 50) {
-        diff > 0 ? nextSlide() : prevSlide();
-      }
-    }, { passive: true });
-
     // Reseta posição
     goToSlide(0);
   }
@@ -257,10 +242,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const imagem = noticia.imagem || 'assets/uploads/placeholder.jpg';
     const dataFormatada = formatDate(noticia.data);
 
+    // Gera o slug/id a partir do campo _arquivo (sem a extensão .json)
+    const slug = noticia._arquivo
+      ? noticia._arquivo.replace(/\.json$/i, '')
+      : encodeURIComponent(titulo.toLowerCase().replace(/\s+/g, '-'));
+    const href = `noticia.html?id=${slug}`;
+
     return `
       <div class="carousel-slide w-full min-w-full shrink-0 group cursor-pointer">
-        <a href="#" class="flex flex-col h-full w-full text-inherit no-underline" title="Ler notícia: ${titulo}">
-          <div class="flex-1 min-h-0 overflow-hidden">
+        <a href="${href}" class="flex flex-col h-full w-full text-inherit no-underline" title="Ler notícia: ${titulo}">
+          <div class="flex-1 min-h-0 overflow-hidden carousel-img-wrapper">
             <img 
               src="${imagem}" 
               alt="${titulo}" 

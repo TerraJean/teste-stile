@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" id="meta-description" content="Leia a noticia completa no Portal Interno do Grupo BGR.">
+  <meta name="theme-color" content="#059669">
+  <title id="page-title">Carregando... | Grupo BGR</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="css/global.css">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: 'var(--color-background, #ffffff)',
+            foreground: 'var(--color-foreground, #242424)',
+            card: { DEFAULT: 'var(--color-card, #ffffff)', foreground: 'var(--color-card-foreground, #242424)' },
+            primary: { DEFAULT: 'var(--color-primary, #059669)', foreground: 'var(--color-primary-foreground, #ffffff)' },
+            muted: { DEFAULT: 'var(--color-muted, #f0f0f0)', foreground: 'var(--color-muted-foreground, #616161)' },
+            accent: { DEFAULT: 'var(--color-accent, #ecfdf5)', foreground: 'var(--color-accent-foreground, #047857)' },
+            border: 'var(--color-border, #e0e0e0)',
+          },
+          fontFamily: { sans: ['Inter', 'Segoe UI', 'system-ui', '-apple-system', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="css/custom.css">
+
+  <style>
+    .article-hero-img { width:100%; max-height:480px; object-fit:cover; border-radius:.75rem; display:block; }
+    .article-body { font-size:1rem; line-height:1.85; color:var(--color-foreground,#242424); }
+    .article-body p { margin-bottom:1.25em; }
+    .article-body h2,.article-body h3 { font-weight:700; margin-top:2em; margin-bottom:.75em; color:var(--color-foreground,#242424); }
+    .article-body h2 { font-size:1.35rem; }
+    .article-body h3 { font-size:1.1rem; }
+    .article-body ul,.article-body ol { padding-left:1.5em; margin-bottom:1.25em; }
+    .article-body li { margin-bottom:.4em; }
+    .skeleton { background:linear-gradient(90deg,#e8e8e8 25%,#f5f5f5 50%,#e8e8e8 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:.4rem; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+  </style>
+</head>
+
+<body class="font-sans antialiased text-foreground min-h-screen flex flex-col bg-background">
+
+  <div class="bgr-bg-image" aria-hidden="true"></div>
+  <div class="bgr-bg-overlay" aria-hidden="true"></div>
+
+  <!-- HEADER -->
+  <header class="header-glass sticky top-0 z-50">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="index.html" class="flex items-center gap-3 group" aria-label="Voltar a pagina inicial">
+          <div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+            <i class="fa-solid fa-building text-primary-foreground text-sm"></i>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-base sm:text-lg font-extrabold tracking-tight text-foreground">GRUPO BGR</span>
+            <span class="hidden sm:inline text-border font-light">|</span>
+            <span class="hidden sm:inline text-xs font-semibold text-primary tracking-widest uppercase">Portal Interno</span>
+          </div>
+        </a>
+        <a href="index.html" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-nav hover:text-primary hover:bg-accent transition-colors">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span class="hidden sm:inline">Voltar ao Portal</span>
+          <span class="sm:hidden">Voltar</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 py-8 md:py-12 relative z-10">
+
+    <div class="mb-6">
+      <a href="index.html" class="inline-flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-white transition-colors group">
+        <i class="fa-solid fa-chevron-left text-xs transition-transform group-hover:-translate-x-1"></i>
+        Voltar as noticias
+      </a>
+    </div>
+
+    <!-- SKELETON -->
+    <article id="article-skeleton">
+      <div class="skeleton h-5 w-28 mb-4"></div>
+      <div class="skeleton h-9 w-full mb-2"></div>
+      <div class="skeleton h-6 w-3/4 mb-6"></div>
+      <div class="skeleton w-full mb-8" style="height:320px;border-radius:.75rem;"></div>
+      <div class="space-y-3">
+        <div class="skeleton h-4 w-full"></div>
+        <div class="skeleton h-4 w-11/12"></div>
+        <div class="skeleton h-4 w-full"></div>
+        <div class="skeleton h-4 w-4/5"></div>
+        <div class="skeleton h-4 w-full"></div>
+        <div class="skeleton h-4 w-2/3"></div>
+      </div>
+    </article>
+
+    <!-- ARTIGO REAL -->
+    <article id="article-content" class="hidden">
+      <div id="article-meta" class="flex items-center gap-3 mb-4 flex-wrap"></div>
+      <h1 id="article-titulo" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight tracking-tight mb-3 drop-shadow-sm"></h1>
+      <p id="article-resumo" class="text-base sm:text-lg text-white/80 font-medium leading-relaxed mb-7 border-l-4 border-primary pl-4"></p>
+      <div class="mb-8 rounded-xl overflow-hidden shadow-2xl">
+        <img id="article-imagem" src="" alt="" class="article-hero-img" onerror="this.closest('div').classList.add('hidden')">
+      </div>
+      <div id="article-corpo" class="article-body bg-card rounded-xl p-6 sm:p-8 shadow-md border border-border"></div>
+      <div class="mt-8 pt-6 border-t border-white/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <a href="index.html" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors shadow-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          Ver todas as noticias
+        </a>
+        <p class="text-xs text-white/50">Portal Interno - Grupo BGR</p>
+      </div>
+    </article>
+
+    <!-- ERRO -->
+    <div id="article-error" class="hidden text-center py-16">
+      <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-4">
+        <i class="fa-solid fa-circle-exclamation text-white/50 text-2xl"></i>
+      </div>
+      <h2 class="text-xl font-bold text-white mb-2">Noticia nao encontrada</h2>
+      <p class="text-white/60 text-sm mb-6">Nao foi possivel carregar esta materia. Ela pode ter sido removida ou o link esta incorreto.</p>
+      <a href="index.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors">
+        <i class="fa-solid fa-arrow-left text-xs"></i>
+        Voltar ao Portal
+      </a>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer-bar py-3.5 flex-shrink-0 mt-auto relative z-10">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p class="text-xs text-white/60 text-center sm:text-left">
+          © <span id="current-year">2026</span> <strong class="text-white/90">GRUPO BGR</strong> - Portal Interno. Todos os direitos reservados.
+        </p>
+        <div class="flex items-center gap-3 text-xs text-white/50">
+          <a href="mailto:ti@grupobgr.com.br" class="flex items-center gap-1.5 hover:text-white transition-colors">
+            <i class="fa-solid fa-envelope text-[11px]"></i> ti@grupobgr.com.br
+          </a>
+          <span class="text-white/20">|</span>
+          <a href="https://ti.grupobgr.com.br" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 hover:text-white transition-colors">
+            <i class="fa-solid fa-headset text-[11px]"></i> Suporte TI
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const yearEl = document.getElementById('current-year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      const skeleton = document.getElementById('article-skeleton');
+      const content  = document.getElementById('article-content');
+      const errorEl  = document.getElementById('article-error');
+      const elTitulo = document.getElementById('article-titulo');
+      const elResumo = document.getElementById('article-resumo');
+      const elImagem = document.getElementById('article-imagem');
+      const elMeta   = document.getElementById('article-meta');
+      const elCorpo  = document.getElementById('article-corpo');
+
+      function formatDate(isoDate) {
+        const meses = ['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+        const d = new Date(isoDate);
+        if (isNaN(d.getTime())) return '';
+        return `${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
+      }
+
+      function showError() {
+        skeleton.classList.add('hidden');
+        errorEl.classList.remove('hidden');
+      }
+
+      function escapeHTML(str) {
+        const div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+      }
+
+      const params  = new URLSearchParams(window.location.search);
+      const idParam = params.get('id');
+      if (!idParam) { showError(); return; }
+
+      let noticias = [];
+      try {
+        const resp = await fetch(`/noticias/index.json?t=${Date.now()}`);
+        if (!resp.ok) throw new Error('index.json nao encontrado');
+        noticias = await resp.json();
+        if (!Array.isArray(noticias)) throw new Error('Formato invalido');
+      } catch (err) {
+        console.warn('[Noticia] Erro ao buscar index.json:', err);
+        showError();
+        return;
+      }
+
+      const noticia = noticias.find(n => {
+        const slug = n._arquivo ? n._arquivo.replace(/\.json$/i, '') : '';
+        return slug === idParam;
+      });
+
+      if (!noticia) { showError(); return; }
+
+      let conteudo = noticia.conteudo || '';
+      if (noticia._arquivo && !conteudo) {
+        try {
+          const resp = await fetch(`/noticias/${noticia._arquivo}?t=${Date.now()}`);
+          if (resp.ok) {
+            const individual = await resp.json();
+            conteudo = individual.conteudo || '';
+          }
+        } catch (e) { /* usa fallback */ }
+      }
+
+      const tituloText    = noticia.titulo || 'Sem titulo';
+      const resumoText    = noticia.resumo || '';
+      const imagemSrc     = noticia.imagem || '';
+      const dataFormatada = formatDate(noticia.data);
+
+      document.getElementById('page-title').textContent       = `${tituloText} | Grupo BGR`;
+      document.getElementById('meta-description').content     = resumoText || tituloText;
+
+      elMeta.innerHTML = `
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-accent text-accent-foreground">
+          <i class="fa-solid fa-newspaper mr-1.5 text-[10px]"></i>Noticia
+        </span>
+        ${dataFormatada ? `<span class="flex items-center gap-1.5 text-sm text-white/70"><i class="fa-regular fa-calendar text-primary text-xs"></i>${dataFormatada}</span>` : ''}
+      `;
+
+      elTitulo.textContent = tituloText;
+
+      if (resumoText) {
+        elResumo.textContent = resumoText;
+      } else {
+        elResumo.classList.add('hidden');
+      }
+
+      if (imagemSrc) {
+        elImagem.src = imagemSrc;
+        elImagem.alt = tituloText;
+      } else {
+        elImagem.closest('div').classList.add('hidden');
+      }
+
+      if (conteudo && conteudo.trim()) {
+        const hasHTML = /<[a-z][\s\S]*>/i.test(conteudo);
+        if (hasHTML) {
+          elCorpo.innerHTML = conteudo;
+        } else {
+          const paragraphs = conteudo.split(/\n{2,}/).map(p => p.trim()).filter(Boolean).map(p => `<p>${escapeHTML(p)}</p>`).join('');
+          elCorpo.innerHTML = paragraphs || `<p>${escapeHTML(conteudo)}</p>`;
+        }
+      } else {
+        elCorpo.innerHTML = `
+          <div class="flex items-center gap-3 text-muted-foreground py-4">
+            <i class="fa-solid fa-circle-info text-primary text-lg"></i>
+            <p class="text-sm">O conteudo completo desta materia nao esta disponivel. Consulte o responsavel pela comunicacao interna.</p>
+          </div>
+        `;
+      }
+
+      skeleton.classList.add('hidden');
+      content.classList.remove('hidden');
+    });
+  </script>
+
+</body>
+</html>
