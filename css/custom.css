@@ -40,13 +40,11 @@ body {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(
-      165deg,
+    linear-gradient(165deg,
       rgba(6, 78, 59, 0.94) 0%,
       rgba(4, 120, 87, 0.88) 35%,
       rgba(5, 150, 105, 0.82) 70%,
-      rgba(2, 44, 34, 0.95) 100%
-    );
+      rgba(2, 44, 34, 0.95) 100%);
 }
 
 /* ---- Custom Scrollbar ---- */
@@ -72,6 +70,7 @@ body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -157,10 +156,13 @@ body {
 */
 .carousel-track {
   display: flex;
-  flex-wrap: nowrap;          /* slides não quebram linha — cruc ial */
-  height: 100%;               /* herda altura do viewport */
+  flex-wrap: nowrap;
+  /* slides não quebram linha — cruc ial */
+  height: 100%;
+  /* herda altura do viewport */
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;     /* otimização de GPU */
+  will-change: transform;
+  /* otimização de GPU */
 }
 
 /*
@@ -168,9 +170,12 @@ body {
   min-width + width + flex-shrink: 0 = blindagem total.
 */
 .carousel-slide {
-  width: 100%;                /* largura exata do viewport */
-  min-width: 100%;            /* impede encolhimento */
-  flex-shrink: 0;             /* nunca encolhe */
+  width: 100%;
+  /* largura exata do viewport */
+  min-width: 100%;
+  /* impede encolhimento */
+  flex-shrink: 0;
+  /* nunca encolhe */
   /* layout em coluna: imagem cresce (flex-1), texto não encolhe (shrink-0) */
   display: flex;
   flex-direction: column;
@@ -178,48 +183,42 @@ body {
   overflow: hidden;
 }
 
-/* Botões Externos do Carrossel (laterais, fora do card) */
-.carousel-btn-ext {
-  width: 2.5rem;
-  height: 2.5rem;
-  flex-shrink: 0;
+/* Botões do Carrossel */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  z-index: 10;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   color: #374151;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
 }
 
-.carousel-btn-ext:hover {
+.carousel-btn:hover {
   background: #ffffff;
   color: var(--color-primary, #059669);
-  transform: scale(1.12);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
 }
 
-/* Wrapper de imagem: altura mínima responsiva para dar destaque visual */
-.carousel-img-wrapper {
-  min-height: 180px;         /* mobile */
+.carousel-btn.prev {
+  left: 1rem;
 }
 
-@media (min-width: 768px) {
-  .carousel-img-wrapper {
-    min-height: 300px;       /* tablet */
-  }
-}
-
-@media (min-width: 1024px) {
-  .carousel-img-wrapper {
-    min-height: 420px;       /* desktop */
-  }
+.carousel-btn.next {
+  right: 1rem;
 }
 
 /* Indicadores / Dots */
@@ -285,26 +284,4 @@ body {
   max-height: 480px;
 }
 
-/* ---- Footer ---- */
-.footer-bar {
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* ---- Animações ---- */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
+/

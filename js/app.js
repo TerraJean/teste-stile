@@ -124,6 +124,21 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     }
 
+    // Touch/swipe support
+    let touchStartX = 0;
+
+    track.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    track.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? nextSlide() : prevSlide();
+      }
+    }, { passive: true });
+
     // Reseta posição
     goToSlide(0);
   }
@@ -162,27 +177,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('scroll', () => {
     const currentScroll = window.scrollY;
-    
+
     if (currentScroll > 50) {
       header.classList.add('shadow-xl');
     } else {
       header.classList.remove('shadow-xl');
     }
-    
+
     lastScroll = currentScroll;
   }, { passive: true });
 
   // ---- 6. Smooth scroll para links de navegação ---- 
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+    anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
       if (targetId === '#') return;
-      
+
       const targetEl = document.querySelector(targetId);
       if (targetEl) {
         e.preventDefault();
         targetEl.scrollIntoView({ behavior: 'smooth' });
-        
+
         // Fecha menu mobile se estiver aberto
         if (mobileMenu && mobileMenu.classList.contains('open')) {
           mobileMenu.classList.remove('open');
@@ -242,16 +257,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const imagem = noticia.imagem || 'assets/uploads/placeholder.jpg';
     const dataFormatada = formatDate(noticia.data);
 
-    // Gera o slug/id a partir do campo _arquivo (sem a extensão .json)
-    const slug = noticia._arquivo
-      ? noticia._arquivo.replace(/\.json$/i, '')
-      : encodeURIComponent(titulo.toLowerCase().replace(/\s+/g, '-'));
-    const href = `noticia.html?id=${slug}`;
-
     return `
       <div class="carousel-slide w-full min-w-full shrink-0 group cursor-pointer">
-        <a href="${href}" class="flex flex-col h-full w-full text-inherit no-underline" title="Ler notícia: ${titulo}">
-          <div class="flex-1 min-h-0 overflow-hidden carousel-img-wrapper">
+        <a href="#" class="flex flex-col h-full w-full text-inherit no-underline" title="Ler notícia: ${titulo}">
+          <div class="flex-1 min-h-0 overflow-hidden">
             <img 
               src="${imagem}" 
               alt="${titulo}" 

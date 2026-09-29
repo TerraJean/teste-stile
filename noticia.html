@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -113,8 +113,14 @@
       <div id="article-meta" class="flex items-center gap-3 mb-4 flex-wrap"></div>
       <h1 id="article-titulo" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight tracking-tight mb-3 drop-shadow-sm"></h1>
       <p id="article-resumo" class="text-base sm:text-lg text-white/80 font-medium leading-relaxed mb-7 border-l-4 border-primary pl-4"></p>
-      <div class="mb-8 rounded-xl overflow-hidden shadow-2xl">
-        <img id="article-imagem" src="" alt="" class="article-hero-img" onerror="this.closest('div').classList.add('hidden')">
+      <!-- Imagem de Capa (hidden por padrão — JS revela quando houver imagem) -->
+      <div id="cover-image-wrapper" class="hidden mb-8 rounded-xl overflow-hidden shadow-2xl">
+        <img
+          id="cover-image"
+          src=""
+          alt="Capa da notícia"
+          class="w-full max-h-[480px] object-cover rounded-xl block"
+        >
       </div>
       <div id="article-corpo" class="article-body bg-card rounded-xl p-6 sm:p-8 shadow-md border border-border"></div>
       <div class="mt-8 pt-6 border-t border-white/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -171,7 +177,6 @@
       const errorEl  = document.getElementById('article-error');
       const elTitulo = document.getElementById('article-titulo');
       const elResumo = document.getElementById('article-resumo');
-      const elImagem = document.getElementById('article-imagem');
       const elMeta   = document.getElementById('article-meta');
       const elCorpo  = document.getElementById('article-corpo');
 
@@ -250,11 +255,19 @@
         elResumo.classList.add('hidden');
       }
 
-      if (imagemSrc) {
-        elImagem.src = imagemSrc;
-        elImagem.alt = tituloText;
-      } else {
-        elImagem.closest('div').classList.add('hidden');
+      // Imagem de capa
+      const coverWrapper = document.getElementById('cover-image-wrapper');
+      const coverImg     = document.getElementById('cover-image');
+
+      if (imagemSrc && coverWrapper && coverImg) {
+        // Normaliza o caminho: garante que funciona com e sem '/' inicial
+        const src = imagemSrc.startsWith('/') ? imagemSrc : '/' + imagemSrc;
+        coverImg.src = src;
+        coverImg.alt = tituloText;
+        // Revela o wrapper só após injetar o src
+        coverWrapper.classList.remove('hidden');
+        // Se a imagem falhar no load, esconde novamente
+        coverImg.onerror = () => coverWrapper.classList.add('hidden');
       }
 
       if (conteudo && conteudo.trim()) {
